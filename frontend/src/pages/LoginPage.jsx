@@ -46,8 +46,7 @@ export default function LoginPage() {
       <div style={{width:'100%',maxWidth:400,position:'relative'}}>
         {/* Header */}
         <div style={{textAlign:'center',marginBottom:28}}>
-          <div style={{width:48,height:48,borderRadius:13,margin:'0 auto 12px',background:'linear-gradient(135deg,var(--blue),var(--violet))',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Space Grotesk',fontWeight:800,fontSize:17,color:'#fff'}}>ET</div>
-          <div style={{fontFamily:'Space Grotesk',fontWeight:800,fontSize:24,marginBottom:4}}>EduTrack</div>
+<img src="/logo-app.png" alt="Logo" style={{width:48,height:48,borderRadius:13,margin:'0 auto 12px',objectFit:'cover'}} />          <div style={{fontFamily:'Space Grotesk',fontWeight:800,fontSize:24,marginBottom:4}}>EduTrack</div>
           <div style={{fontSize:12.5,color:'var(--muted)'}}>ISSAT Sousse · Gestion des Projets & Soutenances</div>
         </div>
 

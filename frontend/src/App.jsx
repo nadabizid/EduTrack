@@ -11,6 +11,10 @@ import StudentProjectsPage  from './pages/StudentProjectsPage';
 import StudentGroupsPage    from './pages/StudentGroupsPage';
 import { StudentSoutenancePage, StudentSchedulePage, StudentNewsPage } from './pages/StudentStaticPages';
 import './index.css';
+import Materials from './pages/Materials';
+import StudentListPage from './pages/StudentListPage';
+import ExamCalendarPage from './pages/ExamCalendarPage';
+import UniversityCalendarPage from './pages/UniversityCalendarPage';
 
 function Shell({ children }) {
   return (
@@ -56,6 +60,11 @@ export default function App() {
             <Route path="/student/news"        element={<S c={<StudentNewsPage/>}/>}/>
             <Route path="/" element={<Navigate to="/dashboard" replace/>}/>
             <Route path="*" element={<Navigate to="/dashboard" replace/>}/>
+            <Route path="/materials" element={<A c={<Materials />} />} />
+            <Route path="/student/students" element={<S c={<StudentListPage/>}/>}/>
+            <Route path="/student/exams" element={<S c={<ExamCalendarPage/>}/>}/>
+            <Route path="/student/uni-calendar" element={<S c={<UniversityCalendarPage/>}/>}/>
+
           </Routes>
         </BrowserRouter>
       </ToastProvider>

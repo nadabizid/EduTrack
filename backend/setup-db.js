@@ -117,6 +117,20 @@ async function setup() {
       )
     `);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS course_materials (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    file_path VARCHAR(500) NOT NULL,
+    subject VARCHAR(100),   -- ex: "Mathématiques", "Algorithmique"
+    uploaded_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+    `);
+
+
     console.log('✅ Tables created');
 
     // ── Seed Users ──────────────────────────────────────────
@@ -204,13 +218,13 @@ async function setup() {
 
       // Add availability
       await client.query(`
-        INSERT INTO teacher_availability (project_id,avail_date,start_time,end_time)
-        VALUES
-          ($1, CURRENT_DATE + $2, '08:30','12:00'),
-          ($1, CURRENT_DATE + $3, '09:00','17:00'),
-          ($1, CURRENT_DATE + $4, '08:00','12:30')`,
-        [proj.id, p.daysLeft - 3, p.daysLeft - 2, p.daysLeft - 1]
-      );
+  INSERT INTO teacher_availability (project_id,avail_date,start_time,end_time)
+  VALUES
+    ($1, (CURRENT_DATE + ($2 || ' days')::interval)::date, '08:30','12:00'),
+    ($1, (CURRENT_DATE + ($3 || ' days')::interval)::date, '09:00','17:00'),
+    ($1, (CURRENT_DATE + ($4 || ' days')::interval)::date, '08:00','12:30')`,
+  [proj.id, p.daysLeft - 3, p.daysLeft - 2, p.daysLeft - 1]
+);
     }
     console.log('✅ Projects seeded (4 projects, notifications sent)');
 
@@ -241,12 +255,12 @@ async function setup() {
 
     // Seed soutenance slots for both groups
     await client.query(`
-      INSERT INTO soutenance_slots (project_id,group_id,slot_date,start_time,end_time,format,room,order_num)
-      VALUES
-        ($1,$2, CURRENT_DATE+25, '09:00','09:20','presentiel','B-12',1),
-        ($1,$3, CURRENT_DATE+25, '09:20','09:40','presentiel','B-12',2)`,
-      [p1id, gAlpha.id, gBeta.id]
-    );
+  INSERT INTO soutenance_slots (project_id,group_id,slot_date,start_time,end_time,format,room,order_num)
+  VALUES
+    ($1,$2, (CURRENT_DATE + INTERVAL '25 days')::date, '09:00','09:20','presentiel','B-12',1),
+    ($1,$3, (CURRENT_DATE + INTERVAL '25 days')::date, '09:20','09:40','presentiel','B-12',2)`,
+  [p1id, gAlpha.id, gBeta.id]
+);
 
     // Notify Ahmed about his slot
     await client.query(
